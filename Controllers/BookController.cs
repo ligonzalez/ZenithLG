@@ -138,7 +138,7 @@ namespace BooksOnLoan.Controllers
             _context.Transactions.Add(tr);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexBooking));
         }
 
         // POST: Book/Edit/5

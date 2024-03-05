@@ -1,0 +1,80 @@
+@model IEnumerable<BooksOnLoan.Models.Transactions>
+
+@{
+    ViewData["Title"] = "Returning Books";
+}
+
+<h1>Returning Books back to inventory</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.CodeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckoutDate)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        using (Html.BeginForm())
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.CodeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.CheckoutDate)
+            </td> 
+            @if (item.ReturnDate > DateTime.Today)
+            {
+                <td style="color: red;">
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td> 
+            }else{
+                 <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td> 
+            }
+            <td>
+                <nobr>
+                    <input type="hidden" name="id" id="id" asp-for="@item.id" />
+                    <input type="submit" id="action" name="action" value="Return" class="btn btn-primary" /> |
+                    <input type="submit" id="action" name="action" value="Email Direct"  class="btn btn-primary" /> |
+                    <input type="button" id="btnpopu" value="Email Popup" class="btn btn-primary" onclick="ShowPopup(@item.id);" />
+                </nobr>
+            </td>
+        </tr>
+        }
+    }    
+    </tbody>       
+</table>
+<script type="text/javascript">
+ShowPopup = function (id) {
+window.open('/Transactions/Email/'+id , "PopupWindow", 'width=400px,height=400px,top=150,left=250');
+}
+</script>

@@ -1,0 +1,52 @@
+@model BooksOnLoan.Models.Transactions
+
+@{
+    ViewData["Title"] = "Email";
+}
+
+<h3> From: The Zenith</h3>
+<hr />
+<h3> To: @Html.DisplayFor(model => model.AspNetUserId)</h3>
+<hr />
+<h2>Subject: Book overdue</h2>
+<div>
+
+     Hello  @Html.DisplayFor(model => model.AspNetUserId)
+
+     Please return the book borrowed by you and should be returned on @Html.DisplayNameFor(model => model.ReturnDate)
+    <dl class="row">
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.CodeNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.CodeNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckoutDate)
+        </dt>
+        <dd class = "col-sm-10" >
+            @Html.DisplayFor(model => model.CheckoutDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReturnDate)
+        </dt>
+        <dt class = "col-sm-2" style="color: red;">
+            @Html.DisplayFor(model => model.ReturnDate)
+        </dt>
+       
+    </dl>
+
+    Please returned a soon as possible. 
+<hr />
+
+</div>
+<div>
+     <input type="button" id="btnClose" value="Close" class="btn btn-primary" onclick="window.close();" />
+</div>

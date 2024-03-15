@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2oeWh7mvuc9cwdRJPjjEWVP0t6A1+nGgs3ErOrG4X9VrHyigam8UOJYvCPeAOa5v/0Vw3vdH4jPU2rMJa1COZw==",
+  "dgSpecHash": "SfVWYpn1n9t9th+2QoYLDimA+jFREvsJysZG/yKw1qfoKL9yep6W4FFYD96yELFtA0PClejHpyA4JqeIKCulPQ==",
   "success": true,
-  "projectFilePath": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan/BooksOnLoan.csproj",
+  "projectFilePath": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan 2/BooksOnLoan.csproj",
   "expectedPackageFiles": [
     "/Users/xallicampos/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/Users/xallicampos/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",

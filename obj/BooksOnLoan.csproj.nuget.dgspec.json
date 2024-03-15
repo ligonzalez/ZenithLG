@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan/BooksOnLoan.csproj": {}
+    "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan 2/BooksOnLoan.csproj": {}
   },
   "projects": {
-    "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan/BooksOnLoan.csproj": {
+    "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan 2/BooksOnLoan.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan/BooksOnLoan.csproj",
+        "projectUniqueName": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan 2/BooksOnLoan.csproj",
         "projectName": "BooksOnLoan",
-        "projectPath": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan/BooksOnLoan.csproj",
+        "projectPath": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan 2/BooksOnLoan.csproj",
         "packagesPath": "/Users/xallicampos/.nuget/packages/",
-        "outputPath": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan/obj/",
+        "outputPath": "/Users/xallicampos/BCIT/COMP4602/Assignment01/Ass01/BooksOnLoan 2/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/xallicampos/.nuget/NuGet/NuGet.Config"

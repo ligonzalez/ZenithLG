@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BooksOnLoan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bf68dd94ee7b82ae38943d433155bcdff62d0c1a")]
 [assembly: System.Reflection.AssemblyProductAttribute("BooksOnLoan")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BooksOnLoan")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,159 @@
+@page "/members"
+@using BooksOnLoan.Data;
+@using BooksOnLoan.Models;
+
+@rendermode InteractiveServer
+@inject BookService bookService;
+
+<PageTitle>Member List</PageTitle>
+ 
+@if (members == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+       <label><input type="checkbox" @bind="resetFilter" /> Reset Filter</label>
+    </div>
+    <div>
+       <label><input type="checkbox" @bind="confirmed" /> Not Confirmed</label>
+    </div>
+
+    <div class="page-size-chooser">
+        Items per page:
+        <select @bind="@pagination.ItemsPerPage">
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+        </select>
+    </div>
+    <br />
+    <div>
+        <QuickGrid Items="@filteredItems" Pagination="@pagination" >
+
+            <PropertyColumn Property="@(p => p.FirstName)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="firstNameFilter" @bind:event="oninput" placeholder="First Name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.LastName)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="lastNameFilter" @bind:event="oninput" placeholder="Last name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.Email)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="emailFilter" @bind:event="oninput" placeholder="Email..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.PhoneNumber)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="phoneFilter" @bind:event="oninput" placeholder="Phone..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.MobileNumber)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="phoneFilter" @bind:event="oninput" placeholder="Mobile Phone..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            
+            <TemplateColumn Title="Actions" >
+                <nobr>
+                <table>
+                    <tr>
+                        <td style="width:30%">
+                           @if (context.isMember == true){
+                            <a  class="btn btn-primary btn-sm disabled" href="/Member/Confirm/@context.Id">Confirm</a>
+                           }else{
+                            <a class="btn btn-primary btn-sm" href="/Member/Confirm/@context.Id">Confirm</a>
+                           }
+                           
+                        </td>
+                        <td style="width:30%">
+                            <a class="btn btn-primary btn-sm" href="/Member/Edit/@context.Id">Update</a>
+                        </td>
+                        <td style="width:30%">
+                            <a class="btn btn-danger btn-sm" href="/Member/Edit/@context.Id">Delete</a>
+                        </td>
+                    </tr>
+                </table>
+               
+                </nobr>
+            </TemplateColumn>
+        </QuickGrid>  
+        
+        <Paginator State="@pagination" />
+        
+    </div>
+  
+}
+
+@code {
+    //private Book[]? books;
+    IQueryable<CustomUser>? itemsQueryable;
+    List<CustomUser>? members;
+    string firstNameFilter = string.Empty;
+    string lastNameFilter = string.Empty;
+    string emailFilter = string.Empty;
+    string phoneFilter = string.Empty;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    bool resetFilter = false;
+    bool confirmed = false;
+    IQueryable<CustomUser>? filteredItems
+    {
+        get
+        {
+            if(resetFilter){
+                return itemsQueryable;
+            }
+
+            var result = itemsQueryable;
+
+            if(confirmed){
+                 result =  result?.Where(x =>  x.isMember != true);
+            }
+          
+            //First Name Last Name 
+            if (!string.IsNullOrEmpty(firstNameFilter))
+            {
+                result =  result?.Where(x =>  x.FirstName!.Contains(firstNameFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(lastNameFilter))
+            {
+                result =  result?.Where(x =>  x.LastName!.Contains(lastNameFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(emailFilter))
+            {
+                result =  result?.Where(x =>  x.Email!.Contains(emailFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(phoneFilter))
+            {
+                result =  result?.Where(x =>  x.PhoneNumber!.Contains(phoneFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+           
+            return result;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+         members = await bookService.GetMembersAsync();
+        itemsQueryable = members.AsQueryable();
+
+    }
+}

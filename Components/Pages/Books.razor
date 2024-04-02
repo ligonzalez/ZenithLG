@@ -1,0 +1,121 @@
+@page "/books"
+@using BooksOnLoan.Data;
+@using BooksOnLoan.Models;
+
+@rendermode InteractiveServer
+
+@inject BookService bookService;
+
+<PageTitle>My Books</PageTitle>
+
+<h1>Books</h1>
+ 
+@if (bookList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+       <label><input type="checkbox" @bind="resetFilter" /> Reset Filter</label>
+    </div>
+
+    <div class="page-size-chooser">
+        Items per page:
+        <select @bind="@pagination.ItemsPerPage">
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+        </select>
+    </div>
+    <br />
+    <div>
+        <QuickGrid Items="@filteredItems" Pagination="@pagination" >
+
+            <PropertyColumn Property="@(p => p.CodeNumber)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="idFilter" @bind:event="oninput" placeholder="Id..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.Author)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="authorFilter" @bind:event="oninput" placeholder="First name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.Title)" Sortable="true" Class="country-name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <input type="search" autofocus @bind="titleFilter" @bind:event="oninput" placeholder="First name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+
+            <PropertyColumn Property="@(p => p.YearPublished)" Sortable="true" />
+
+            <PropertyColumn Property="@(p => p.Quantity)" Sortable="true" />
+            
+            <TemplateColumn Title="Actions">
+                <a class="btn btn-primary btn-sm" href="/Book/Edit/@context.CodeNumber">Update</a>
+                <a class="btn btn-primary btn-sm" href="/Book/Details/@context.CodeNumber">Details</a>
+                <a class="btn btn-danger btn-sm" href="/Book/Delete/@context.CodeNumber">Delete</a>
+            </TemplateColumn>
+        </QuickGrid>  
+        
+        <Paginator State="@pagination" />
+        
+    </div>
+  
+}
+
+@code {
+    //private Book[]? books;
+    IQueryable<Book>? itemsQueryable;
+    List<Book>? bookList;
+    string authorFilter = string.Empty;
+    string schoolFilter = string.Empty;
+    string idFilter = string.Empty;
+    string titleFilter = string.Empty;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    bool resetFilter = false;
+    IQueryable<Book>? filteredItems
+    {
+        get
+        {
+            if(resetFilter){
+                return itemsQueryable;
+            }
+            
+            var result = itemsQueryable;
+
+            //Id will be the first filter
+            if (!string.IsNullOrEmpty(idFilter))
+            {
+                return  result?.Where(x =>  x.CodeNumber.ToString()!.Contains(idFilter.ToString(), StringComparison.CurrentCultureIgnoreCase));
+            }
+            
+            //First Name Last Name 
+            if (!string.IsNullOrEmpty(authorFilter))
+            {
+                result =  result?.Where(x =>  x.Author!.Contains(authorFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(titleFilter))
+            {
+                result =  result?.Where(x =>  x.Title!.Contains(titleFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+           
+            return result;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+       bookList = await bookService.GetBooksAsync();
+       itemsQueryable = bookList.AsQueryable();
+    }
+}

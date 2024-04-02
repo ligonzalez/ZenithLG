@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<CustomUser> SignInManager
+@inject UserManager<CustomUser> UserManager
 
 <ul class="navbar-nav">
 <!-- && User.IsInRole("Admin")-->
@@ -14,6 +14,10 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Transactions" asp-action="Index">Returns</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Member Admin</a>
+        </li>
+
       }
   else if (SignInManager.IsSignedIn(User) && User.IsInRole("Member"))
   {

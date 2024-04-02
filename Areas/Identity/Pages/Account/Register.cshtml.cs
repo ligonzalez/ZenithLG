@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BooksOnLoan.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,18 +24,18 @@ namespace BooksOnLoan.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly SignInManager<CustomUser> _signInManager;
+        private readonly UserManager<CustomUser> _userManager;
+        private readonly IUserStore<CustomUser> _userStore;
+        private readonly IUserEmailStore<CustomUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;  
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<CustomUser> userManager,
+            IUserStore<CustomUser> userStore,
+            SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager)
@@ -100,6 +101,60 @@ namespace BooksOnLoan.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name ="First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name = "City")]
+            public string City { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(2, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name = "Province")]
+            public string Province { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name = "Country")]
+            public string Country { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 7)]
+            [Display(Name = "Postal Code")]
+            public string PostalCode { get; set; }
+
+            [Required]
+            [DataType(DataType.PhoneNumber)]
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
+            [DataType(DataType.PhoneNumber)]
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+            [Display(Name = "Mobile Number")]
+            public string MobileNumber { get; set; }
         }
 
 
@@ -115,7 +170,22 @@ namespace BooksOnLoan.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                //var user = CreateUser();
+                var user = new CustomUser {
+                UserName = Input.Email,
+                Email = Input.Email,
+                FirstName = Input.FirstName,
+                LastName = Input.LastName,
+                PhoneNumber = Input.PhoneNumber,
+                MobileNumber = Input.MobileNumber,
+                Address = Input.Address,
+                PostalCode = Input.PostalCode,
+                City = Input.City,
+                Country = Input.Country,
+                Province = Input.Province,
+                isMember =  false,
+                isAdmin = false
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -125,12 +195,12 @@ namespace BooksOnLoan.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var defaultrole = _roleManager.FindByNameAsync("Member").Result;  
+                    // var defaultrole = _roleManager.FindByNameAsync("Member").Result;  
 
-                    if (defaultrole != null)  
-                    {  
-                        IdentityResult roleresult = await  _userManager.AddToRoleAsync(user, defaultrole.Name);  
-                    }  
+                    // if (defaultrole != null)  
+                    // {  
+                    //    IdentityResult roleresult = await  _userManager.AddToRoleAsync(user, defaultrole.Name);  
+                    //}  
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -164,27 +234,27 @@ namespace BooksOnLoan.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private CustomUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<CustomUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(CustomUser)}'. " +
+                    $"Ensure that '{nameof(CustomUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<CustomUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<CustomUser>)_userStore;
         }
     }
 }

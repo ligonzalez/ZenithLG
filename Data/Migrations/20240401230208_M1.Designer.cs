@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksOnLoan.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240303001337_M1")]
+    [Migration("20240401230208_M1")]
     partial class M1
     {
         /// <inheritdoc />
@@ -88,6 +88,159 @@ namespace BooksOnLoan.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BooksOnLoan.Models.CustomUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MobileNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Province")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("isAdmin")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("isMember")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b4f0d3bb-c526-4fe4-9422-e4ff46db78cf",
+                            AccessFailedCount = 0,
+                            Address = "12 West Street",
+                            City = "Vancouver",
+                            ConcurrencyStamp = "4821d64f-e006-4935-9479-88bb6205ab7f",
+                            Country = "Canada",
+                            Email = "aa@aa.aa",
+                            EmailConfirmed = true,
+                            FirstName = "Mr. Elmasri",
+                            LastName = "Medhat",
+                            LockoutEnabled = false,
+                            MobileNumber = "(605)528-6688",
+                            NormalizedEmail = "AA@AA.AA",
+                            NormalizedUserName = "AA@AA.AA",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFKhmVfa5/oI3YuM9xkCJG983ErEBo/6ltEUdThtq7O5aPsK0IRmjqLkuIjemuccDA==",
+                            PhoneNumber = "(604)677-8899",
+                            PhoneNumberConfirmed = true,
+                            PostalCode = "V5T 6Y7",
+                            Province = "BC",
+                            SecurityStamp = "bcb823f2-4043-4b75-8b62-34e8b3d93f0a",
+                            TwoFactorEnabled = false,
+                            UserName = "aa@aa.aa",
+                            isAdmin = true,
+                            isMember = false
+                        },
+                        new
+                        {
+                            Id = "4d66a097-c79a-443e-98a5-7b018a4c19ee",
+                            AccessFailedCount = 0,
+                            Address = "9 Eastwood Street",
+                            City = "Coquitlam",
+                            ConcurrencyStamp = "40205e84-a195-487e-b41e-afe4a7ea4309",
+                            Country = "Canada",
+                            Email = "mm@mm.mm",
+                            EmailConfirmed = true,
+                            FirstName = "Laura",
+                            LastName = "Gonzalez",
+                            LockoutEnabled = false,
+                            MobileNumber = "(728)345-4548",
+                            NormalizedEmail = "MM@MM.MM",
+                            NormalizedUserName = "MM@MM.MM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHpihY7ICEb2L2pYpbaMktD4wRKDc5xqUf/5M9iqBhIaml0W6KxXsJdh52jMo7mJaA==",
+                            PhoneNumber = "(604)58-7866",
+                            PhoneNumberConfirmed = true,
+                            PostalCode = "V4B 7P9",
+                            Province = "BC",
+                            SecurityStamp = "5e4963cd-54c3-4d24-aef9-ae9efe860796",
+                            TwoFactorEnabled = false,
+                            UserName = "mm@mm.mm",
+                            isAdmin = false,
+                            isMember = true
+                        });
+                });
+
             modelBuilder.Entity("BooksOnLoan.Models.Transactions", b =>
                 {
                     b.Property<int>("id")
@@ -146,13 +299,13 @@ namespace BooksOnLoan.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e4603d95-7499-43ec-af70-eb850a180a19",
+                            Id = "c1f08a00-c4f2-4507-96ca-81f8912bfde8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2df75bba-551d-437d-a812-d0533af7859c",
+                            Id = "aae3b323-252b-4ad4-bcf2-4382bd8e7236",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -179,104 +332,6 @@ namespace BooksOnLoan.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "7b1c5150-db56-4ba7-9946-721ad83eb941",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a2fa2ea-ea1d-48c5-ae3f-196b0d9f3118",
-                            Email = "aa@aa.aa",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "AA@AA.AA",
-                            NormalizedUserName = "AA@AA.AA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGN47FcC2vf4S5MvKmINXo4+QapHz0pgmp1oyR/90cX6KidE3In0J8UZb0i6ova2Mw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "988d515c-9d21-439b-85a0-d1738d607b8c",
-                            TwoFactorEnabled = false,
-                            UserName = "aa@aa.aa"
-                        },
-                        new
-                        {
-                            Id = "687e258d-5874-4667-8ac0-b95a0dae2882",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "901c8fb2-293e-4832-be64-9e4090c947e1",
-                            Email = "mm@mm.mm",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MM@MM.MM",
-                            NormalizedUserName = "MM@MM.MM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENYQK5G0RXxh5Nw35BkVvS6HFPdP9v3Od66lhUoU/Koc+Lwr+0OOmqVJ0KY9oh615A==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "c8cacb2c-4f68-4e2f-9da4-533904ae4d40",
-                            TwoFactorEnabled = false,
-                            UserName = "mm@mm.mm"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -343,13 +398,13 @@ namespace BooksOnLoan.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "7b1c5150-db56-4ba7-9946-721ad83eb941",
-                            RoleId = "e4603d95-7499-43ec-af70-eb850a180a19"
+                            UserId = "b4f0d3bb-c526-4fe4-9422-e4ff46db78cf",
+                            RoleId = "c1f08a00-c4f2-4507-96ca-81f8912bfde8"
                         },
                         new
                         {
-                            UserId = "687e258d-5874-4667-8ac0-b95a0dae2882",
-                            RoleId = "2df75bba-551d-437d-a812-d0533af7859c"
+                            UserId = "4d66a097-c79a-443e-98a5-7b018a4c19ee",
+                            RoleId = "aae3b323-252b-4ad4-bcf2-4382bd8e7236"
                         });
                 });
 
@@ -396,7 +451,7 @@ namespace BooksOnLoan.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BooksOnLoan.Models.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -405,7 +460,7 @@ namespace BooksOnLoan.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BooksOnLoan.Models.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -420,7 +475,7 @@ namespace BooksOnLoan.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BooksOnLoan.Models.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -429,7 +484,7 @@ namespace BooksOnLoan.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BooksOnLoan.Models.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

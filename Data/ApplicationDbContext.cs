@@ -1,11 +1,12 @@
-﻿using BooksOnLoan.Models;
+﻿using System;
+using BooksOnLoan.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BooksOnLoan.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<CustomUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -14,13 +15,16 @@ public class ApplicationDbContext : IdentityDbContext
 
     public DbSet<Book>? Book { get; set; }
     public DbSet<Transactions>? Transactions { get; set; }
+    public DbSet<CustomUser>? CustomUser { get; set; }
+    public DbSet<IdentityRole>? IdentityRole { get; set; }
+    public DbSet<IdentityUserRole<string>>? IdentityUserRole { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         // Use seed method here
         SeedUsersRoles seedUsersRoles = new();
         builder.Entity<IdentityRole>().HasData(seedUsersRoles.Roles);
-        builder.Entity<IdentityUser>().HasData(seedUsersRoles.Users);
+        builder.Entity<CustomUser>().HasData(seedUsersRoles.Users);
         builder.Entity<IdentityUserRole<string>>().HasData(seedUsersRoles.UserRoles);
 
         //Seeding Books 

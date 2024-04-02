@@ -32,6 +32,17 @@ namespace BooksOnLoan.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    Province = table.Column<string>(type: "TEXT", nullable: true),
+                    Country = table.Column<string>(type: "TEXT", nullable: true),
+                    PostalCode = table.Column<string>(type: "TEXT", nullable: true),
+                    MobileNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    isMember = table.Column<bool>(type: "INTEGER", nullable: true),
+                    isAdmin = table.Column<bool>(type: "INTEGER", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -202,17 +213,17 @@ namespace BooksOnLoan.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2df75bba-551d-437d-a812-d0533af7859c", null, "Member", "MEMBER" },
-                    { "e4603d95-7499-43ec-af70-eb850a180a19", null, "Admin", "ADMIN" }
+                    { "aae3b323-252b-4ad4-bcf2-4382bd8e7236", null, "Member", "MEMBER" },
+                    { "c1f08a00-c4f2-4507-96ca-81f8912bfde8", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MobileNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "Province", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName", "isAdmin", "isMember" },
                 values: new object[,]
                 {
-                    { "687e258d-5874-4667-8ac0-b95a0dae2882", 0, "901c8fb2-293e-4832-be64-9e4090c947e1", "mm@mm.mm", true, false, null, "MM@MM.MM", "MM@MM.MM", "AQAAAAIAAYagAAAAENYQK5G0RXxh5Nw35BkVvS6HFPdP9v3Od66lhUoU/Koc+Lwr+0OOmqVJ0KY9oh615A==", null, false, "c8cacb2c-4f68-4e2f-9da4-533904ae4d40", false, "mm@mm.mm" },
-                    { "7b1c5150-db56-4ba7-9946-721ad83eb941", 0, "9a2fa2ea-ea1d-48c5-ae3f-196b0d9f3118", "aa@aa.aa", true, false, null, "AA@AA.AA", "AA@AA.AA", "AQAAAAIAAYagAAAAEGN47FcC2vf4S5MvKmINXo4+QapHz0pgmp1oyR/90cX6KidE3In0J8UZb0i6ova2Mw==", null, false, "988d515c-9d21-439b-85a0-d1738d607b8c", false, "aa@aa.aa" }
+                    { "4d66a097-c79a-443e-98a5-7b018a4c19ee", 0, "9 Eastwood Street", "Coquitlam", "40205e84-a195-487e-b41e-afe4a7ea4309", "Canada", "mm@mm.mm", true, "Laura", "Gonzalez", false, null, "(728)345-4548", "MM@MM.MM", "MM@MM.MM", "AQAAAAIAAYagAAAAEHpihY7ICEb2L2pYpbaMktD4wRKDc5xqUf/5M9iqBhIaml0W6KxXsJdh52jMo7mJaA==", "(604)58-7866", true, "V4B 7P9", "BC", "5e4963cd-54c3-4d24-aef9-ae9efe860796", null, false, "mm@mm.mm", false, true },
+                    { "b4f0d3bb-c526-4fe4-9422-e4ff46db78cf", 0, "12 West Street", "Vancouver", "4821d64f-e006-4935-9479-88bb6205ab7f", "Canada", "aa@aa.aa", true, "Mr. Elmasri", "Medhat", false, null, "(605)528-6688", "AA@AA.AA", "AA@AA.AA", "AQAAAAIAAYagAAAAEFKhmVfa5/oI3YuM9xkCJG983ErEBo/6ltEUdThtq7O5aPsK0IRmjqLkuIjemuccDA==", "(604)677-8899", true, "V5T 6Y7", "BC", "bcb823f2-4043-4b75-8b62-34e8b3d93f0a", null, false, "aa@aa.aa", true, false }
                 });
 
             migrationBuilder.InsertData(
@@ -232,8 +243,8 @@ namespace BooksOnLoan.Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "2df75bba-551d-437d-a812-d0533af7859c", "687e258d-5874-4667-8ac0-b95a0dae2882" },
-                    { "e4603d95-7499-43ec-af70-eb850a180a19", "7b1c5150-db56-4ba7-9946-721ad83eb941" }
+                    { "aae3b323-252b-4ad4-bcf2-4382bd8e7236", "4d66a097-c79a-443e-98a5-7b018a4c19ee" },
+                    { "c1f08a00-c4f2-4507-96ca-81f8912bfde8", "b4f0d3bb-c526-4fe4-9422-e4ff46db78cf" }
                 });
 
             migrationBuilder.CreateIndex(

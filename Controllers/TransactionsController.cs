@@ -8,10 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BooksOnLoan.Data;
 using BooksOnLoan.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualStudio.Web.CodeGeneration.CommandLine;
 using System.Net.Mail;
 using System.Net;
-
 
 namespace BooksOnLoan.Controllers
 {
@@ -33,6 +31,12 @@ namespace BooksOnLoan.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        // GET: Get members to be list
+        public ActionResult Members()
+        {
+            return View();
+        }
+
         // GET: My Bookings
         public async Task<IActionResult> MyBookings()
         {
@@ -45,6 +49,67 @@ namespace BooksOnLoan.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public IActionResult UserRoleId(string? id)
+        {
+            return View(id);
+        }
+
+        // GET: Transaction
+        public async Task<IActionResult> UserRoleConfirm(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.CustomUser
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Transactions")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MemberConfirmed(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.CustomUser
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+           
+            var role = _context.IdentityRole
+                .FirstOrDefault(u=> u.Name == "Member");
+
+            if (role == null)
+            {
+                return NotFound();
+            }
+        
+            IdentityUserRole<string> userRole = new IdentityUserRole<string>();
+            userRole.UserId = user.Id;
+            userRole.RoleId = role.Id;
+
+            _context.IdentityUserRole.Add(userRole);
+            user.isMember = true;
+            _context.Update(user);
+          
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Members));
+           
+           
+        }
         // GET: Transaction/Details/5
         public async Task<IActionResult> Return(int? id)
         {
